@@ -384,7 +384,7 @@ CSampleEncoder::AllocateSampleBuffer(int inputWidth,
 		size_t pixelSize = PixelSize(inputFormat);
 
 		// Compute the maximum size of the encoded sample
-		size_t sampleSize = inputWidth * inputHeight * pixelSize + 65536 /* metadata padding */;
+        size_t sampleSize = 1.2 * inputWidth * inputHeight * pixelSize + 65536 /* metadata padding */;
 
 		// Allocate the sample buffer using the allocator
 		//m_sampleBuffer = AllocAligned(sampleSize, sampleAlignment);
