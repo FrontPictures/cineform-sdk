@@ -327,7 +327,7 @@ typedef struct encoder {	// Encoder state (derived from codec)
 	int chromaFullRes;		// True if the encoder was initialized with full resolution chroma
 
 	// Number of the most recent frame processed by the encoder (first frame is number one)
-	uint32_t frame_number;
+	uint16_t frame_number;
 
 #if _THREADED_ENCODER
 
