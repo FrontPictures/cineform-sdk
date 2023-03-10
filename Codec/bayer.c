@@ -13868,7 +13868,7 @@ THREAD_PROC(WorkerThreadProc, lpParam)
 				else //lowpass?
 				{
 				}
-				decoder->frame.alpha_Companded = 1;
+                decoder->frame.alpha_Companded = 0;
 				break;
 
 			case ENCODED_FORMAT_YUVA_4444:		// Four planes of YUVA 4:4:4:4
