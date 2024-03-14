@@ -767,7 +767,7 @@ void WriteLastGUIDAndFrame(DECODER *decoder, int checkdiskinfotime)
                         &key) == ERROR_SUCCESS)
         {
             // Use a different registry value for preview in Premiere
-            LPTSTR lpValueName;
+			LPCSTR lpValueName = NULL;
             
             //if(IsDecoderEmbedded())
             if(decoder->premiere_embedded)
