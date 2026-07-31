@@ -2,6 +2,14 @@
 cmake_minimum_required (VERSION 3.5.1)
 project (CineFormSDK)
 
+# MSVC uses _M_X64 for x86-64, while the codec's SIMD selection uses the
+# __x86_64__ guard provided by GCC and Clang.
+if (MSVC AND MSVC_C_ARCHITECTURE_ID STREQUAL "x64")
+	add_definitions(-D__x86_64__=1)
+elseif (MSVC AND MSVC_C_ARCHITECTURE_ID STREQUAL "ARM64")
+	add_compile_options(/Zc:preprocessor)
+endif ()
+
 # Build settings
 option(BUILD_LIBS "Build codec libraries" ON)
 option(BUILD_TOOLS "Build test tools" ON)
