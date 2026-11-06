@@ -266,17 +266,14 @@ CFHD_Error CEncoderPool::EncodeSample(uint32_t frameNumber,
 		return error;
 	}
 
+	// Set the status before publishing the job to the queue.
+	job->status = ENCODER_JOB_STATUS_ENCODING;
+
 	// Add the new job to the end of the encoder job queue
 	error = m_encoderJobQueue.AddEncoderJob(job);
 	if (error != CFHD_ERROR_OKAY) {
 		return error;
 	}
-
-	// Assign the new job to an asynchronous encoder
-	assert(job->status == ENCODER_JOB_STATUS_UNASSIGNED);
-
-	// Indicate that this job has been assigned to an encoder
-	job->status = ENCODER_JOB_STATUS_ENCODING;
 
 	// Select the next encoder
 	if (job->keyFrame) {

@@ -108,11 +108,8 @@ CFHD_Error CAsyncEncoder::MessageLoop()
 				job->sampleBuffer = sampleBuffer;
 			}
 
-			// Done encoding the frame
-			job->status = ENCODER_JOB_STATUS_FINISHED;
-
-			// Signal that the encoder job has finished
-			pool->SignalJobFinished();
+			// Publish the finished job and wake the waiting consumer.
+			pool->SignalJobFinished(job);
 		}
 	}
 }

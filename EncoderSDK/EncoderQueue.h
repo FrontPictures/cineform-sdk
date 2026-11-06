@@ -371,9 +371,11 @@ public:
 		return job;
 	}
 
-	void SignalJobFinished()
+	void SignalJobFinished(EncoderJob *job)
 	{
-		// Wake a thread that is waiting for an encoded sample
+		// Publish completion under the same mutex used to test and wait for it.
+		CAutoLock lock(mutex);
+		job->status = ENCODER_JOB_STATUS_FINISHED;
 		ready.Wake();
 	}
 

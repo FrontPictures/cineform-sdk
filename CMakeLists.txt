@@ -151,3 +151,17 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libcineformsdk.pc.cmake ${CMAKE_CURRE
 install(TARGETS ${TARGET_NAMES} DESTINATION lib/)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libcineformsdk.pc DESTINATION lib/pkgconfig)
 install(FILES ${PUBLIC_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR})
+
+# Exercise asynchronous completion without relying on polling delays.
+option(BUILD_TESTING "Build SDK regression tests" OFF)
+if (BUILD_TESTING)
+    if (NOT BUILD_LIBS OR NOT BUILD_STATIC OR BUILD_SEPARATED)
+        message(FATAL_ERROR "Regression tests require the combined static codec")
+    endif ()
+    enable_testing()
+    find_package(Threads REQUIRED)
+    add_executable(AsyncEncoderCompletionTest tests/AsyncEncoderCompletion.cpp)
+    target_link_libraries(AsyncEncoderCompletionTest PRIVATE CFHDCodecStatic Threads::Threads ${ADDITIONAL_LIBS} ${TOY_LIBS})
+    add_test(NAME AsyncEncoderCompletion COMMAND AsyncEncoderCompletionTest)
+    set_tests_properties(AsyncEncoderCompletion PROPERTIES TIMEOUT 120)
+endif ()
