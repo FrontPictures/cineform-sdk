@@ -1451,6 +1451,20 @@ bool InitializeEncoderWithParameters(ENCODER *encoder, TRANSFORM *transform[], i
 	// Clear all encoder fields except the logfile and set the codebooks for encoding
 	InitEncoder(encoder, logfile, &codesets[0]);
 
+	// InitEncoder retains the run and value books, but never uses the decoder lookup tables.
+	{
+		int codeset_index;
+		for (codeset_index = 0; codeset_index < CODEC_NUM_CODESETS; codeset_index++)
+		{
+#if _ALLOCATOR
+			Free(allocator, codesets[codeset_index].fastbook);
+#else
+			MEMORY_FREE(codesets[codeset_index].fastbook);
+#endif
+			codesets[codeset_index].fastbook = NULL;
+		}
+	}
+
 	
 	chromaFullRes = false;
 
