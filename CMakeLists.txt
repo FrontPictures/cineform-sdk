@@ -164,4 +164,8 @@ if (BUILD_TESTING)
     target_link_libraries(AsyncEncoderCompletionTest PRIVATE CFHDCodecStatic Threads::Threads ${ADDITIONAL_LIBS} ${TOY_LIBS})
     add_test(NAME AsyncEncoderCompletion COMMAND AsyncEncoderCompletionTest)
     set_tests_properties(AsyncEncoderCompletion PROPERTIES TIMEOUT 120)
+    add_executable(SpatialFilterSmallRowsTest tests/SpatialFilterSmallRows.cpp)
+    target_link_libraries(SpatialFilterSmallRowsTest PRIVATE CFHDCodecStatic Threads::Threads ${ADDITIONAL_LIBS} ${TOY_LIBS})
+    add_test(NAME SpatialFilterSmallRows COMMAND SpatialFilterSmallRowsTest)
+
 endif ()

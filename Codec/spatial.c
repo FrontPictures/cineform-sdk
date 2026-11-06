@@ -527,6 +527,16 @@ void FilterHorizontalRow16s(PIXEL *input, PIXEL *lowpass, PIXEL *highpass, int w
 	column+=2;
 #endif
 
+	// A short row skips the SIMD loop, so emit the left border before
+	// entering the interior filter, which reads the preceding two pixels.
+	if (column == 0)
+	{
+		sum = input[0] + input[1];
+		*(lowptr++) = SATURATE(sum);
+		*(highptr++) = SATURATE(highpass_value);
+		column = 2;
+	}
+
 	// Process the last group of columns as a special case to handle the border
 	for (; column < last_column; column += 2)
 	{
@@ -3956,6 +3966,15 @@ void FilterHorizontalRow10bit16s(PIXEL *input, PIXEL *lowpass, PIXEL *highpass, 
 	*(highptr++) = SATURATE(highpass_value);
 	column+=2;
 #endif
+
+	// Short rows still need the left-border output when the SIMD loop is skipped.
+	if (column == 0)
+	{
+		sum = (input[0] + input[1] + 3) >> V210_HORIZONTAL_SHIFT;
+		*(lowptr++) = SATURATE(sum);
+		*(highptr++) = SATURATE(highpass_value);
+		column = 2;
+	}
 
 	// Process the last group of columns as a special case to handle the border
 	for (; column < last_column; column += 2)
