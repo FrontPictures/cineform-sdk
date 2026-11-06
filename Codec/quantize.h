@@ -116,6 +116,15 @@ extern "C" {
 extern const unsigned char delta[];
 #endif
 
+// The SDK sets quality on the worker that quantizes each frame. Keep the
+// legacy row-filter setting local to that worker so encoder pools cannot interfere.
+#if defined(_MSC_VER)
+#define CFHD_THREAD_LOCAL __declspec(thread)
+#else
+#define CFHD_THREAD_LOCAL __thread
+#endif
+extern CFHD_THREAD_LOCAL int g_midpoint_prequant;
+
 // Initialize the quantization parameters
 void InitQuantizer(QUANTIZER *q);
 

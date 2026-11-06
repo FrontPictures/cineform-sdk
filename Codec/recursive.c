@@ -448,8 +448,6 @@ void FilterVerticalMiddleStrip(PIXEL *input[6], int width, PIXEL *lowpass, PIXEL
 
 
 
-//TODO:  get rid of the global.
-extern int g_midpoint_prequant; //HACK
 
 
 void FilterVerticalMiddleStripQuantBoth(PIXEL *input[6], int width,

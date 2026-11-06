@@ -4883,8 +4883,6 @@ void FilterHorizontalRowScaled16s(PIXEL *input, PIXEL *lowpass, PIXEL *highpass,
 
 
 
-//TODO:  get rid of the global.
-extern int g_midpoint_prequant; //HACK
 
 
 #if _PROCESSOR_DISPATCH
